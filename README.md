@@ -11,9 +11,23 @@ Schema For IOS Project
 
 ****** Schema 说明 ******
 
-1. App内置schema格式
+1. App内置schema格式：
 
 yourappname://pageName?param0=value0&param1=value1
+
+2.Step 1：
+
+你支持schema的UIViewController中实现如下方法
+	
+	(params 为schema传入的参数)
+	
+	- (instancetype)initWithScheme:(NSDictionary *)params;
+
+若不实现，默认调用init方法（此处待优化）
+
+Note：理论上来说是必须要实现schema方法！
+
+3.Step 2：
 
 你需要在项目中加入 schema.plist文件，文件内容格式如下
 
@@ -57,7 +71,9 @@ yourappname://pageName?param0=value0&param1=value1
 		描述信息，不用于代码，仅用于其他人看你的schema文件
 
 
-2.程序内web页（暂未实现）
+************  其他说明 **************
+
+1.程序内web页（暂未实现）
 
 	yourappname://web?title=百度&linkurl=www.baidu.com&hasshare=0&shareurl=www.baidu.com
 
@@ -71,7 +87,8 @@ yourappname://pageName?param0=value0&param1=value1
 	shareurl:分享链接
 	
 
-    schema示例说明：
+2.schema示例说明：
+
     我的收藏页面schema：
     yourappname://myfav?userid=1000&param1=111111 （推荐）
     yourappname://my_fav?userid=1000&param1=111111 (应遵循浏览器)
