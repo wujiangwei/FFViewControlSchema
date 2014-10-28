@@ -8,7 +8,21 @@ Schema For IOS Project
 
 yourappname://pageName?param0=value0&param1=value1
 
-页面跳转筛选功能（比如 该页面一定需要登录）
+2.程序内web页
+
+	title: web页导航栏title
+		
+	hasnav:是否开启导航条（默认打开，参数:0打开，1关闭）
+		
+	hasshare:分享按钮是否显示（默认显示，参数:0打开，1关闭）(5.2)
+		
+	shareurl:分享链接(5.2)
+	
+3.当App主页是基于底部导航栏的设计
+
+	tabbarindex:0-x,0第一个tabbarindex高亮，若是负数则无效
+
+3.页面跳转中转功能（比如 目标页面一定需要登录）
 
 参数：isNeedLogin=1(需要登录),配置好你的App的登录页面schema（比如说MyAppLoginViewController）
 
