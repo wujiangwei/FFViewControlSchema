@@ -15,7 +15,9 @@ Schema For IOS Project
 
 yourappname://pageName?param0=value0&param1=value1
 
-默认参数:
+
+默认参数（非schema链接中的参数，需要配置在App的schema.plist文件中）:
+
 	isneedlogin:
 	
 		默认无此参数(isneedlogin = 0)
