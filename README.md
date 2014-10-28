@@ -17,13 +17,20 @@ yourappname://pageName?param0=value0&param1=value1
 
 默认参数:
 	isneedlogin:
+	
 		默认无此参数(isneedlogin = 0)
+		
 		如果为1,则会先跳转到你App的登录界面，登录完成后，继续跳转相关界面
+		
 	tabbarindex: 
+	
 		默认无此参数
+		
 		如果shcemma传入此参数:App主页界面结构需要是UITabBarController，否则 tabbarindex 设置无效
+		
 		tabbarindex数值范围应在UITabBarController.viewControllers.count范围内，超出则设置无效
 	
+
 
 2.程序内web页
 
