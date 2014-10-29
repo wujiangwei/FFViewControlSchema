@@ -23,6 +23,8 @@ yourappname:说明，取自mainBundle infoDictionary objectForKey:@"CFBundleName
 
     _appName = [yourappname lowercaseString];
 
+Note: 支持 IOS 官方Schema，若传入官方schema格式，将使用系统schema处理
+
 2.Step 1：
 
 你支持schema的UIViewController中实现如下方法
