@@ -15,6 +15,15 @@ Schema For IOS Project
 
 yourappname://pageName?param0=value0&param1=value1
 
+    Schema配置文件名：FFSchema.plist（建立该文件，加入到工程中，模块应用时会读取该配置文件）
+
+yourappname:说明，取自mainBundle infoDictionary objectForKey:@"CFBundleName"，并且全是小写
+
+    //code
+
+    yourappname = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]
+
+    _appName = [yourappname lowercaseString];
 
 默认参数（非schema链接中的参数，需要配置在App的schema.plist文件中）:
 
@@ -63,11 +72,14 @@ IOS官方shema 具体参考苹果Maps Schema介绍
 
 （https://developer.apple.com/library/ios/featuredarticles/iPhoneURLScheme_Reference/Introduction/Introduction.html）
 
-	•	maps: 调起地图应用，需要提供必要参数如地址，经纬度等 例子: http://maps.apple.com/?q=shanghai
+	•	maps: 调起地图应用，需要提供必要参数如地址，经纬度等
+例子: http://maps.apple.com/?q=shanghai
 	
-	•	http: 调起safari  例子: http://tuan.baidu.com/
+	•	http: 调起safari 
+例子: http://tuan.baidu.com/
 	
-	•	sms: 调起短消息  例子: sms://1-408-555-1212
+	•	sms: 调起短消息 
+例子: sms://1-408-555-1212
 	
 
 

@@ -49,7 +49,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        NSString *file = [[NSBundle mainBundle] pathForResource:@"schema" ofType:@"plist"];
+        NSString *file = [[NSBundle mainBundle] pathForResource:@"FFSchema" ofType:@"plist"];
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:file];
         _supportedSchema = dict;
     }
@@ -83,9 +83,12 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 
             return [self openSchema:schema params:vcParam];
         }else{
+            NSLog(@"FFSchemaManager Log: system schema:%@", url);
             [[UIApplication sharedApplication] openURL:url];
         }
     }
+    
+    NSLog(@"FFLog: invalid schema url:%@, please check your schema head,it must be %@", url, self.appName);
     return NO;
 }
 
@@ -93,6 +96,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     NSDictionary *schemaDic = self.supportedSchema[schema];
     NSString *className = schemaDic[kFFSchemaName];
     if (!className) {
+        NSLog(@"FFSchemaManager Log: className is nil, check your FFSchema.plist config");
         return NO;
     }
     
@@ -102,7 +106,6 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     BOOL needLogin = [schemaDic[kFFSchemaKeyIsNeedLogin] boolValue];
     if (needLogin) {
         //TODO:
-        
     } else {
         [self pushViewController:className withParams:params tabItem:isTabItem];
     }
@@ -158,6 +161,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 
         UINavigationController *navi = (UINavigationController *)[(UITabBarController *)rootViewController selectedViewController];
         if (!navi) {
+            NSLog(@"FFSchemaManager Log: rootViewController is UITabBarController,but it do not have a selectedViewController,anything error?");
             return;
         }
         if (navi.topViewController.presentedViewController) {
@@ -184,6 +188,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     
     UINavigationController *currentNavViewController = [self currentNavViewController];
     if (!currentNavViewController) {
+        NSLog(@"FFSchemaManager Log:can not get current navigation viewcontroller,it's nil");
         return;
     }
     
@@ -200,6 +205,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 #pragma clang diagnostic pop
     
     if (!desViewController) {
+        NSLog(@"FFSchemaManager Log:desViewController int failed,it's nil");
         return;
     }
     
