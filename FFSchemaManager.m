@@ -56,6 +56,11 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     return self;
 }
 
+- (void)configSchema:(NSString *)configSchemaName
+{
+    self.appName = configSchemaName;
+}
+
 - (BOOL)isAppSchema:(NSURL *)url
 {
     return [[[url scheme] lowercaseString] isEqualToString:self.appName];

@@ -12,6 +12,9 @@
 
 + (FFSchemaManager *)sharedInstance;
 
+//config schema, suggest you do it when app lanuch
+- (void)configSchema:(NSString *)configSchemaName;
+
 //determine schema format is the schema in this application
 - (BOOL)isAppSchema:(NSURL *)url;
 
