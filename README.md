@@ -11,11 +11,9 @@ Schema For IOS Project
 
 ****** Schema 说明 ******
 
-1. App内置schema格式
+1. App内置schema格式：
 
 yourappname://pageName?param0=value0&param1=value1
-
-    Schema配置文件名：FFSchema.plist（建立该文件，加入到工程中，模块应用时会读取该配置文件）
 
 yourappname:说明，取自mainBundle infoDictionary objectForKey:@"CFBundleName"，并且全是小写
 
@@ -25,41 +23,81 @@ yourappname:说明，取自mainBundle infoDictionary objectForKey:@"CFBundleName
 
     _appName = [yourappname lowercaseString];
 
-默认参数（非schema链接中的参数，需要配置在App的schema.plist文件中）:
+2.Step 1：
 
-	isneedlogin:
+你支持schema的UIViewController中实现如下方法
 	
-		默认无此参数(isneedlogin = 0)
+	(params 为schema传入的参数)
+	
+	- (instancetype)initWithScheme:(NSDictionary *)params;
+
+若不实现，默认调用init方法（此处待优化）
+
+Note：理论上来说是必须要实现schema方法！
+
+3.Step 2：
+
+Schema配置文件名：FFSchema.plist（建立该文件，加入到工程中，模块应用时会读取该配置文件）
+
+文件内容格式如下
+
+		<?xml version="1.0" encoding="UTF-8"?>
+		<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+		<plist version="1.0">
+		<dict>
+			<key>name</key>
+			<string>TestTableViewControl</string>
+			<key>needlogin</key>
+			<false/>
+			<key>tabitemindex</key>
+			<integer>-1</integer>
+			<key>desc</key>
+			<string>测试用的Tableview页面</string>
+		</dict>
+		</plist>
+
+	默认参数（非schema链接中的参数，需要配置在App的schema.plist文件中）:
+
+	needlogin:
+	
+		默认无此参数(needlogin = 0)
 		
 		如果为1,则会先跳转到你App的登录界面，登录完成后，继续跳转相关界面
 		
-	tabbarindex: 
+	tabitemindex: 
 	
 		默认无此参数
 		
-		如果shcemma传入此参数:App主页界面结构需要是UITabBarController，否则 tabbarindex 设置无效
+		如果shcemma传入此参数:App主页界面结构需要是UITabBarController，否则 tabitemindex 设置无效
 		
-		tabbarindex数值范围应在UITabBarController.viewControllers.count范围内，超出则设置无效
+		tabitemindex数值范围应在UITabBarController.viewControllers.count范围内，超出则设置无效
 	
+	name:
+	
+		你对应UIViewcontroller的class的名字
+		
+	desc:
+		描述信息，不用于代码，仅用于其他人看你的schema文件
 
 
-2.程序内web页
+************  其他说明 **************
 
-	yourappname://web?title=百度&hasnav=1&hasshare=0&shareurl=www.baidu.com
+1.程序内web页（暂未实现）
+
+	yourappname://web?title=百度&linkurl=www.baidu.com&hasshare=0&shareurl=www.baidu.com
 
 	title: web页导航栏title
 		
-	hasnav:是否开启导航条（默认打开，参数:0打开，1关闭）(App无不是基于UINavigationController的此参数无效)
-		
+	linkurl:跳转网页网址
+	
+	（下面是可选参数）	
 	hasshare:分享按钮是否显示（默认显示，参数:0打开，1关闭）
 		
 	shareurl:分享链接
 	
-3.当App主页是基于底部导航栏的设计
 
-	tabbarindex:0-x,0第一个tabbarindex高亮，若是负数则无效
+2.schema示例说明：
 
-    schema示例说明：
     我的收藏页面schema：
     yourappname://myfav?userid=1000&param1=111111 （推荐）
     yourappname://my_fav?userid=1000&param1=111111 (应遵循浏览器)
