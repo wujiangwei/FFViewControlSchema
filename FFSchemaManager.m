@@ -57,6 +57,8 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     return self;
 }
 
+#pragma mark - config schema
+
 - (void)configStoryboardSchema:(NSString *)storyboardName
 {
     _storyboardName = [storyboardName copy];
@@ -66,6 +68,8 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 {
     self.appName = configSchemaName;
 }
+
+#pragma mark - schema tools
 
 - (BOOL)isAppSchema:(NSURL *)url
 {
@@ -84,6 +88,8 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     }
     return NO;
 }
+
+#pragma mark - open schema
 
 - (BOOL)openURL:(NSURL *)url
 {

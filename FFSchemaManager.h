@@ -31,6 +31,27 @@
 //support IOS Schema and application schema
 - (BOOL)canOpenUrl:(NSURL *)url;
 
+/*
+ if your want open schema in Selector:
+    - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+ 
+ you must call this method to judge is this schema return to your app
+ like your app shares some thing to QQ,and user return from qq
+ In this case,you can not open the url
+ 
+ this method is design for you to judge is return from share app
+ **/
+
+//Please using your share SDK do this things
+//like ShareSDK.h support method:
+/*      + (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
+                annotation:(id)annotation wxDelegate:(id)wxDelegate*/
+//if return YES,please do not call
+//      - (BOOL)openURL:(NSURL *)url
+
+//so this method do not need again
+//- (BOOL)canOpenUrl:(NSURL *)url sourceApp:(NSString *)sourceApp;
+
 //open schema
 //return :did open your schema succeed
 - (BOOL)openURL:(NSURL *)url;
