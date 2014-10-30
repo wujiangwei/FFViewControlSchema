@@ -213,7 +213,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         //xib or code style
         //need host + params
         if (class_respondsToSelector(desVCClass, @selector(initWithScheme::))) {
-            desViewController = [[desVCClass alloc] performSelector:@selector(initWithScheme:) withObject:schema withObject:params];
+            desViewController = [[desVCClass alloc] performSelector:@selector(initWithScheme::) withObject:schema withObject:params];
         }
         //need host
         else if (class_respondsToSelector(desVCClass, @selector(initWithScheme:))) {
