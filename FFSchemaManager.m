@@ -202,8 +202,8 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         desViewController = [storyboard instantiateViewControllerWithIdentifier:className];
         
         //need host + params
-        if (class_respondsToSelector(desVCClass, @selector(setSchemaParam:params:))) {
-            [desViewController performSelector:@selector(setSchemaParam:params:) withObject:schema withObject:params];
+        if (class_respondsToSelector(desVCClass, @selector(setSchema:params:))) {
+            [desViewController performSelector:@selector(setSchema:params:) withObject:schema withObject:params];
         }
         //just need params
         else if (class_respondsToSelector(desVCClass, @selector(setSchemaParam:))) {
