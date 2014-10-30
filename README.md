@@ -15,7 +15,13 @@ Schema For IOS Project
 
 yourappname://pageName?param0=value0&param1=value1
 
-yourappname:说明，取自mainBundle infoDictionary objectForKey:@"CFBundleName"，并且全是小写
+yourappname:
+
+    A. 自己配置，请调用以下方法:
+        
+        - (void)configSchema:(NSString *)configSchemaName;
+
+    B. 默认配置：取自mainBundle infoDictionary objectForKey:@"CFBundleName"，并且全是小写
 
     //code
 
@@ -25,17 +31,29 @@ yourappname:说明，取自mainBundle infoDictionary objectForKey:@"CFBundleName
 
 Note: 支持 IOS 官方Schema，若传入官方schema格式，将使用系统schema处理
 
-2.Step 1：
+2.Step 1
 
-你支持schema的UIViewController中实现如下方法
+A.在IOS Project中未使用Storyboard：
+
+    你支持schema的UIViewController中实现如下方法
 	
-	(params 为schema传入的参数)
+        (params 为schema传入的参数)
 	
-	- (instancetype)initWithScheme:(NSDictionary *)params;
+        - (instancetype)initWithScheme:(NSDictionary *)params;
 
-若不实现，默认调用init方法（此处待优化）
+    若不实现，默认调用init方法（此处待优化）
 
-Note：理论上来说是必须要实现schema方法！
+    Note：理论上来说是必须要实现schema方法！
+
+B.在IOS Project中使用Storyboard：
+
+        在App启动时初始化你的storyboardName的名字
+
+        - (void)configStoryboardSchema:(NSString *)storyboardName
+
+        在你的storyboardName.storyboard中，对应支持schema的支持的VC中，勾选上support storyboard id
+
+        （你的storyboard id就是你的FFSchema.plist中的name对应的字段）
 
 3.Step 2：
 

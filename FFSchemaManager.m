@@ -24,6 +24,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 @implementation FFSchemaManager
 {
     NSString *_appName;
+    NSString *_storyboardName;
 }
 
 + (FFSchemaManager *)sharedInstance
@@ -54,6 +55,11 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         _supportedSchema = dict;
     }
     return self;
+}
+
+- (void)configStoryboardSchema:(NSString *)storyboardName
+{
+    _storyboardName = [storyboardName copy];
 }
 
 - (void)configSchema:(NSString *)configSchemaName
@@ -183,14 +189,6 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         ((UITabBarController *)rootViewController).hidesBottomBarWhenPushed = YES;
     }
     
-    /* Crash修复
-     * Fatal Exception: NSInvalidArgumentException
-     *** -[NSProxy doesNotRecognizeSelector:currentViewController] called!
-     */
-//    if (![[UIApplication sharedApplication].delegate isKindOfClass:[AppDelegate class]]) {
-//        return;
-//    }
-    
     UINavigationController *currentNavViewController = [self currentNavViewController];
     if (!currentNavViewController) {
         NSLog(@"FFSchemaManager Log:can not get current navigation viewcontroller,it's nil");
@@ -202,10 +200,21 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-    if (class_respondsToSelector(desVCClass, @selector(initWithScheme:))) {
-        desViewController = [[desVCClass alloc] performSelector:@selector(initWithScheme:) withObject:params];
-    } else {
-        desViewController = [desViewController init];
+    if (_storyboardName.length > 0) {
+        //storyboard style
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:_storyboardName bundle:nil];
+        desViewController = [storyboard instantiateViewControllerWithIdentifier:className];
+        
+        if (class_respondsToSelector(desVCClass, @selector(setSchemaParam:))) {
+            [desViewController performSelector:@selector(setSchemaParam:) withObject:params];
+        }
+    }else{
+        //xib or code style
+        if (class_respondsToSelector(desVCClass, @selector(initWithScheme:))) {
+            desViewController = [[desVCClass alloc] performSelector:@selector(initWithScheme:) withObject:params];
+        } else {
+            desViewController = [desViewController init];
+        }
     }
 #pragma clang diagnostic pop
     

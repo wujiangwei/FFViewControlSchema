@@ -15,6 +15,15 @@
 //config schema, suggest you do it when app lanuch
 - (void)configSchema:(NSString *)configSchemaName;
 
+/*
+ * Default not support storyboard
+ * Call this method to support storyboard
+ * storyboardName:your storyboard name
+ *
+ * If your use storyboard,the StoryboardId is the schema name
+ **/
+- (void)configStoryboardSchema:(NSString *)storyboardName;
+
 //determine schema format is the schema in this application
 - (BOOL)isAppSchema:(NSURL *)url;
 
