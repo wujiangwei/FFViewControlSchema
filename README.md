@@ -55,6 +55,10 @@ B.在IOS Project中使用Storyboard：
 
         （你的storyboard id就是你的FFSchema.plist中的name对应的字段）
 
+        在你的支持schema的UIViewContrller中实现以下方法：
+    
+        - (void)setSchemaParam:(NSDictionary *)params;
+
 3.Step 2：
 
 Schema配置文件名：FFSchema.plist（建立该文件，加入到工程中，模块应用时会读取该配置文件）
