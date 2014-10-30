@@ -118,7 +118,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     if (needLogin) {
         //TODO:
     } else {
-        [self pushViewController:className withParams:params tabItem:isTabItem];
+        [self pushViewController:schema className:className withParams:params tabItem:isTabItem];
     }
     return YES;
 }
@@ -160,11 +160,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     return schemaArray;
 }
 
-- (void)pushViewController:(NSString *)className withParams:(NSDictionary *)params {
-    [self pushViewController:className withParams:params tabItem:-1];
-}
-
-- (void)pushViewController:(NSString *)className withParams:(NSDictionary *)params tabItem:(NSInteger)tabbarIndex {
+- (void)pushViewController:(NSString *)schema className:(NSString *)className withParams:(NSDictionary *)params tabItem:(NSInteger)tabbarIndex {
     
     //If rootViewController is UITabBarController,do select tabbar Index
     UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
@@ -205,15 +201,23 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:_storyboardName bundle:nil];
         desViewController = [storyboard instantiateViewControllerWithIdentifier:className];
         
-        if (class_respondsToSelector(desVCClass, @selector(setSchemaParam:))) {
+        //need host + params
+        if (class_respondsToSelector(desVCClass, @selector(setSchemaParam::))) {
+            [desViewController performSelector:@selector(setSchemaParam:) withObject:schema withObject:params];
+        }
+        //just need params
+        else if (class_respondsToSelector(desVCClass, @selector(setSchemaParam:))) {
             [desViewController performSelector:@selector(setSchemaParam:) withObject:params];
         }
     }else{
         //xib or code style
-        if (class_respondsToSelector(desVCClass, @selector(initWithScheme:))) {
-            desViewController = [[desVCClass alloc] performSelector:@selector(initWithScheme:) withObject:params];
-        } else {
-            desViewController = [desViewController init];
+        //need host + params
+        if (class_respondsToSelector(desVCClass, @selector(initWithScheme::))) {
+            desViewController = [[desVCClass alloc] performSelector:@selector(initWithScheme:) withObject:schema withObject:params];
+        }
+        //need host
+        else if (class_respondsToSelector(desVCClass, @selector(initWithScheme:))) {
+            desViewController = [[desVCClass alloc] performSelector:@selector(initWithScheme:)  withObject:params];
         }
     }
 #pragma clang diagnostic pop
