@@ -11,9 +11,11 @@ Schema For IOS Project
 
 ****** Schema 说明 ******
 
-1. App内置schema格式：
+1. App内置schema格式:
 
 yourappname://pageName?param0=value0&param1=value1
+
+    如果是打开App首页 请传yourappname:// 这里maybe have a issue
 
 yourappname:
 
