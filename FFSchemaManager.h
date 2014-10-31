@@ -20,7 +20,9 @@
  * Call this method to support storyboard
  * storyboardName:your storyboard name
  *
- * If your use storyboard,the StoryboardId is the schema name
+ * If you use storyboard
+ * the StoryboardId in your storyboard:
+ * In the schema.plist name(key)-value(StoryboardId)
  **/
 - (void)configStoryboardSchema:(NSString *)storyboardName;
 
