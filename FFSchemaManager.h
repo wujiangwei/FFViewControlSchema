@@ -12,7 +12,11 @@
 
 + (FFSchemaManager *)sharedInstance;
 
-//config schema, suggest you do it when app lanuch
+/*
+ ******* Config these when your App lanuch ********
+ */
+
+//config schema
 - (void)configSchema:(NSString *)configSchemaName;
 
 //config schema vc push animation
@@ -29,6 +33,8 @@
  * In the schema.plist name(key)-value(StoryboardId)
  **/
 - (void)configStoryboardSchema:(NSString *)storyboardName;
+
+/******** End: Config these when your App lanuch *********/
 
 //determine schema format is the schema in this application
 - (BOOL)isAppSchema:(NSURL *)url;
