@@ -23,8 +23,11 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 
 @implementation FFSchemaManager
 {
+    @private
     NSString *_appName;
     NSString *_storyboardName;
+    
+    BOOL _vcPushAnimation;
 }
 
 + (FFSchemaManager *)sharedInstance
@@ -53,6 +56,8 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         NSString *file = [[NSBundle mainBundle] pathForResource:@"FFSchema" ofType:@"plist"];
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:file];
         _supportedSchema = dict;
+        
+        _vcPushAnimation = YES;
     }
     return self;
 }
@@ -67,6 +72,11 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 - (void)configSchema:(NSString *)configSchemaName
 {
     self.appName = configSchemaName;
+}
+
+- (void)configSchemaVCPushAnimation:(BOOL)vcPushAnimation
+{
+    _vcPushAnimation = vcPushAnimation;
 }
 
 #pragma mark - schema tools
@@ -233,7 +243,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         return;
     }
     
-    [currentNavViewController pushViewController:desViewController animated:YES];
+    [currentNavViewController pushViewController:desViewController animated:_vcPushAnimation];
 }
 
 @end

@@ -15,6 +15,10 @@
 //config schema, suggest you do it when app lanuch
 - (void)configSchema:(NSString *)configSchemaName;
 
+//config schema vc push animation
+//default is YES
+- (void)configSchemaVCPushAnimation:(BOOL)vcPushAnimation;
+
 /*
  * Default not support storyboard
  * Call this method to support storyboard
