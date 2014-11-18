@@ -23,7 +23,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
 
 @implementation FFSchemaManager
 {
-    @private
+@private
     NSString *_appName;
     NSString *_storyboardName;
     
@@ -107,7 +107,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         if ([self isAppSchema:url]) {
             NSString *schema = [url host];
             NSDictionary *vcParam = [url queryDictionary];
-
+            
             return [self openSchema:schema params:vcParam];
         }else{
             NSLog(@"FFSchemaManager Log: system schema:%@", url);
@@ -180,8 +180,9 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     
     //If rootViewController is UITabBarController,do select tabbar Index
     UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-    if (tabbarIndex >= 0 && [rootViewController isKindOfClass:[UITabBarController class]]) {
-
+    BOOL isRootTabController = [rootViewController isKindOfClass:[UITabBarController class]];
+    if (tabbarIndex >= 0 && isRootTabController) {
+        
         UINavigationController *navi = (UINavigationController *)[(UITabBarController *)rootViewController selectedViewController];
         if (!navi) {
             NSLog(@"FFSchemaManager Log: rootViewController is UITabBarController,but it do not have a selectedViewController,anything error?");
@@ -209,7 +210,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     
     Class desVCClass = NSClassFromString(className);
     UIViewController *desViewController = nil;
-
+    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     if (_storyboardName.length > 0) {
@@ -241,6 +242,10 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     if (!desViewController) {
         NSLog(@"FFSchemaManager Log:desViewController int failed,it's nil");
         return;
+    }
+    
+    if (isRootTabController) {
+        desViewController.hidesBottomBarWhenPushed = YES;
     }
     
     [currentNavViewController pushViewController:desViewController animated:_vcPushAnimation];
