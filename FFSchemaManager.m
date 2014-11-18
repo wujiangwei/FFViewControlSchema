@@ -13,6 +13,7 @@
 NSString * const kFFSchemaName           = @"name";
 NSString * const kFFSchemaKeyIsNeedLogin = @"needlogin";
 NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
+NSString * const kFFSchemaKeyIsPresent   = @"isPresent";
 
 @interface FFSchemaManager ()
 
@@ -128,13 +129,14 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     }
     
     NSInteger isTabItem = [schemaDic[kFFSchemaKeyTabIndex] integerValue];
+    NSInteger isPresent = [schemaDic[kFFSchemaKeyIsPresent] integerValue];
     
     //  登录处理
     BOOL needLogin = [schemaDic[kFFSchemaKeyIsNeedLogin] boolValue];
     if (needLogin) {
         //TODO:
     } else {
-        [self pushViewController:schema className:className withParams:params tabItem:isTabItem];
+        [self pushViewController:schema className:className withParams:params tabItem:isTabItem isPresent:isPresent];
     }
     return YES;
 }
@@ -176,13 +178,16 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
     return schemaArray;
 }
 
-- (void)pushViewController:(NSString *)schema className:(NSString *)className withParams:(NSDictionary *)params tabItem:(NSInteger)tabbarIndex {
+- (void)pushViewController:(NSString *)schema className:(NSString *)className withParams:(NSDictionary *)params tabItem:(NSInteger)tabbarIndex isPresent:(NSInteger)isPresent{
     
     //If rootViewController is UITabBarController,do select tabbar Index
     UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
     BOOL isRootTabController = [rootViewController isKindOfClass:[UITabBarController class]];
     if (tabbarIndex >= 0 && isRootTabController) {
-        
+        //对于以tabViewController的App 0就是首页，无需做任何事情
+        if (tabbarIndex == 0) {
+            return;
+        }
         UINavigationController *navi = (UINavigationController *)[(UITabBarController *)rootViewController selectedViewController];
         if (!navi) {
             NSLog(@"FFSchemaManager Log: rootViewController is UITabBarController,but it do not have a selectedViewController,anything error?");
@@ -200,6 +205,7 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         }
         
         ((UITabBarController *)rootViewController).hidesBottomBarWhenPushed = YES;
+        //此处不能return
     }
     
     UINavigationController *currentNavViewController = [self currentNavViewController];
@@ -208,6 +214,8 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         return;
     }
     
+    
+    //init destine ViewController
     Class desVCClass = NSClassFromString(className);
     UIViewController *desViewController = nil;
     
@@ -244,11 +252,15 @@ NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
         return;
     }
     
-    if (isRootTabController) {
-        desViewController.hidesBottomBarWhenPushed = YES;
+    if(isPresent == 0){
+        if (isRootTabController) {
+            desViewController.hidesBottomBarWhenPushed = YES;
+        }
+        
+        [currentNavViewController pushViewController:desViewController animated:_vcPushAnimation];
+    }else{
+        [currentNavViewController presentViewController:desViewController animated:YES completion:nil];
     }
-    
-    [currentNavViewController pushViewController:desViewController animated:_vcPushAnimation];
 }
 
 @end

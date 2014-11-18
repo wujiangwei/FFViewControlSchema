@@ -101,7 +101,11 @@ Schema配置文件名：FFSchema.plist（建立该文件，加入到工程中，
 	name:
 	
 		你对应UIViewcontroller的class的名字
-		
+
+    isPresent:
+    
+        新的界面是不是需要present出来，而不是 navigation push
+
 	desc:
 		描述信息，不用于代码，仅用于其他人看你的schema文件
 
