@@ -13,7 +13,7 @@
 NSString * const kFFSchemaName           = @"name";
 NSString * const kFFSchemaKeyIsNeedLogin = @"needlogin";
 NSString * const kFFSchemaKeyTabIndex    = @"tabitemindex";
-NSString * const kFFSchemaKeyIsPresent   = @"isPresent";
+NSString * const kFFSchemaKeyIsPresent   = @"ispresent";
 
 @interface FFSchemaManager ()
 
