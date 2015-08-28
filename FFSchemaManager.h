@@ -8,6 +8,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+typedef BOOL(^schemaLoginBlock)();
+
 @interface FFSchemaManager : NSObject
 
 + (FFSchemaManager *)sharedInstance;
@@ -17,7 +19,8 @@
  */
 
 //config schema
-- (void)configSchema:(NSString *)configSchemaName;
+//configSchemaName can just be lower string
+- (void)configSchema:(NSString *)configSchemaName isLoginBlock:(schemaLoginBlock)block;
 
 //config schema vc push animation
 //default is YES
