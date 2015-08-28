@@ -21,6 +21,9 @@ NSString * const kFFSchemaKeyIsPresent   = @"ispresent";
 
 @property (copy, nonatomic) schemaLoginBlock isLoginBlock;
 
+//custom
+@property (strong, nonatomic) NSMutableArray *customTabbarControllerClassNameArray;
+
 @end
 
 @implementation FFSchemaManager
@@ -188,6 +191,15 @@ NSString * const kFFSchemaKeyIsPresent   = @"ispresent";
     //If rootViewController is UITabBarController,do select tabbar Index
     UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
     BOOL isRootTabController = [rootViewController isKindOfClass:[UITabBarController class]];
+    
+    if (_customTabbarControllerClassNameArray.count > 0) {
+        for (NSString *customClassName in _customTabbarControllerClassNameArray) {
+            isRootTabController = [rootViewController isKindOfClass:NSClassFromString(customClassName)];
+            if (isRootTabController == YES) {
+                break;
+            }
+        }
+    }
     if (tabbarIndex >= 0 && isRootTabController) {
         //对于以tabViewController的App 0就是首页，无需做任何事情
         if (tabbarIndex == 0) {
@@ -266,6 +278,15 @@ NSString * const kFFSchemaKeyIsPresent   = @"ispresent";
     }else{
         [currentNavViewController presentViewController:desViewController animated:YES completion:nil];
     }
+}
+
+- (void)addTabBarControllerClassName:(NSString *)className
+{
+    if (!_customTabbarControllerClassNameArray) {
+        self.customTabbarControllerClassNameArray = [NSMutableArray arrayWithCapacity:2];
+    }
+    
+    [_customTabbarControllerClassNameArray addObject:className];
 }
 
 @end
