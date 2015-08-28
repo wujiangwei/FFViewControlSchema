@@ -71,4 +71,7 @@ typedef BOOL(^schemaLoginBlock)();
 //return :did open your schema succeed
 - (BOOL)openURL:(NSURL *)url;
 
+//custom TabBarController class name
+- (void)addTabBarControllerClassName:(NSString *)className;
+
 @end
