@@ -7,7 +7,6 @@
 
 #import "FFSchemaManager.h"
 #import "NSURL+FFURLShemaParse.h"
-
 #import <objc/runtime.h>
 
 NSString * const kFFSchemaName           = @"name";
@@ -19,6 +18,8 @@ NSString * const kFFSchemaKeyIsPresent   = @"ispresent";
 
 @property (strong, nonatomic) NSString *appName;
 @property (strong, nonatomic) NSDictionary *supportedSchema;
+
+@property (copy, nonatomic) schemaLoginBlock isLoginBlock;
 
 @end
 
@@ -70,9 +71,10 @@ NSString * const kFFSchemaKeyIsPresent   = @"ispresent";
     _storyboardName = [storyboardName copy];
 }
 
-- (void)configSchema:(NSString *)configSchemaName
+- (void)configSchema:(NSString *)configSchemaName isLoginBlock:(schemaLoginBlock)block
 {
     self.appName = configSchemaName;
+    self.isLoginBlock = block;
 }
 
 - (void)configSchemaVCPushAnimation:(BOOL)vcPushAnimation
@@ -133,11 +135,14 @@ NSString * const kFFSchemaKeyIsPresent   = @"ispresent";
     
     //  登录处理
     BOOL needLogin = [schemaDic[kFFSchemaKeyIsNeedLogin] boolValue];
-    if (needLogin) {
-        //TODO:
-    } else {
-        [self pushViewController:schema className:className withParams:params tabItem:isTabItem isPresent:isPresent];
+    if (self.isLoginBlock != nil && needLogin) {
+        if (!self.isLoginBlock()) {
+            //BUGBUG Login
+            return NO;
+        }
     }
+    
+    [self pushViewController:schema className:className withParams:params tabItem:isTabItem isPresent:isPresent];
     return YES;
 }
 
